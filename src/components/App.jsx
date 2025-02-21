@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import './App.css';
 import Product from './Product';
 

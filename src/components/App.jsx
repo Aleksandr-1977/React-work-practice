@@ -39,24 +39,44 @@ import Product from './Product';
 
 //   return <button onClick={handleClick}>Current: {clicks}</button>;
 // };
-function App() {
-  const [clicks, setClicks] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+// function App() {
+//   const [clicks, setClicks] = useState(0);
+//   const [isOpen, setIsOpen] = useState(false);
 
+//   const handleClick = () => {
+//     setClicks(clicks + 1);
+//   };
+
+//   const handleToggle = () => {
+//     setIsOpen(!isOpen);
+//   };
+
+//   return (
+//     <>
+//       <button onClick={handleClick}>Current: {clicks}</button>
+//       <button onClick={handleToggle}>{isOpen ? 'Hide' : 'Show'}</button>
+//       {isOpen && <p>Now you can see me!</p>}
+//     </>
+//   );
+// }
+const ClickCounter = ({ value, onUpdate }) => {
+  return <button onClick={onUpdate}>Current: {value}</button>;
+};
+
+const App = () => {
+  const [clicks, setClicks] = useState(0);
+
+  // Функція, яку будемо передавати в ClickCounter
+  // для виклику під час кліку
   const handleClick = () => {
     setClicks(clicks + 1);
   };
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <>
-      <button onClick={handleClick}>Current: {clicks}</button>
-      <button onClick={handleToggle}>{isOpen ? 'Hide' : 'Show'}</button>
-      {isOpen && <p>Now you can see me!</p>}
+      <ClickCounter value={clicks} onUpdate={handleClick} />
+      <ClickCounter value={clicks} onUpdate={handleClick} />
     </>
   );
-}
+};
 export default App;

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Product from './Product';
 
@@ -59,24 +59,39 @@ import Product from './Product';
 //     </>
 //   );
 // }
-const ClickCounter = ({ value, onUpdate }) => {
-  return <button onClick={onUpdate}>Current: {value}</button>;
-};
+// const ClickCounter = ({ value, onUpdate }) => {
+//   return <button onClick={onUpdate}>Current: {value}</button>;
+// };
 
+// const App = () => {
+//   const [clicks, setClicks] = useState(0);
+
+//   // Функція, яку будемо передавати в ClickCounter
+//   // для виклику під час кліку
+//   const handleClick = () => {
+//     setClicks(clicks + 1);
+//   };
+
+//   return (
+//     <>
+//       <ClickCounter value={clicks} onUpdate={handleClick} />
+//       <ClickCounter value={clicks} onUpdate={handleClick} />
+//     </>
+//   );
+// };
 const App = () => {
   const [clicks, setClicks] = useState(0);
 
-  // Функція, яку будемо передавати в ClickCounter
-  // для виклику під час кліку
-  const handleClick = () => {
-    setClicks(clicks + 1);
-  };
+  // Оголошуємо ефект
+  useEffect(() => {
+    document.title = `You clicked ${clicks} times`;
+  }, [clicks]);
 
   return (
-    <>
-      <ClickCounter value={clicks} onUpdate={handleClick} />
-      <ClickCounter value={clicks} onUpdate={handleClick} />
-    </>
+    <button onClick={() => setClicks(clicks + 1)}>
+      You clicked {clicks} times
+    </button>
   );
 };
+
 export default App;

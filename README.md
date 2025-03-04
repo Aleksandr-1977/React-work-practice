@@ -16,3 +16,5 @@ Currently, two official plugins are available:
 - npm install clsx
 - npm install modern-normalize
 - npm install react-icons
+- npm install -g react-devtools
+- npm i react-devtools

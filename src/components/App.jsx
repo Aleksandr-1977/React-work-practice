@@ -1,8 +1,48 @@
 import clsx from 'clsx';
 import { useState, useEffect } from 'react';
 import './App.css';
-import Product from './Product';
+import LoginForm from './Product';
 
+const App = () => {
+  const [hasAccepted, setHasAccepted] = useState(false);
+
+  const handleChange = evt => {
+    setHasAccepted(evt.target.checked);
+  };
+
+  return (
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          name="terms"
+          checked={hasAccepted}
+          onChange={handleChange}
+        />
+        I accept terms and conditions
+      </label>
+      <button type="button" disabled={!hasAccepted}>
+        Proceed
+      </button>
+    </div>
+  );
+};
+// const App = () => {
+//   // Колбек-функція для обробки сабміту форми
+//   const handleLogin = userData => {
+//     // Виконуємо необхідні операції з даними
+//     console.log(userData);
+//   };
+
+//   return (
+//     <div>
+//       <h1>Please login to your account!</h1>
+//       {/* Передаємо колбек як пропс форми */}
+//       <LoginForm onLogin={handleLogin} />
+//     </div>
+//   );
+// };
+export default App;
 // export default function App() {
 //   return (
 //     <div>
@@ -79,19 +119,40 @@ import Product from './Product';
 //     </>
 //   );
 // };
-const App = () => {
-  const [clicks, setClicks] = useState(0);
+// const App = () => {
+//   const [clicks, setClicks] = useState(0);
 
-  // Оголошуємо ефект
-  useEffect(() => {
-    document.title = `You clicked ${clicks} times`;
-  }, [clicks]);
+//   // Оголошуємо ефект
+//   useEffect(() => {
+//     document.title = `You clicked ${clicks} times`;
+//   }, [clicks]);
 
-  return (
-    <button onClick={() => setClicks(clicks + 1)}>
-      You clicked {clicks} times
-    </button>
-  );
-};
+//   return (
+//     <button onClick={() => setClicks(clicks + 1)}>
+//       You clicked {clicks} times
+//     </button>
+//   );
+// };
+// const App = () => {
+//   const [first, setFirst] = useState(0);
+//   const [second, setSecond] = useState(0);
 
-export default App;
+//   useEffect(() => {
+//     console.log('First updated: ', first);
+//   }, [first]);
+
+//   useEffect(() => {
+//     console.log('Second updated: ', second);
+//   }, [second]);
+
+//   useEffect(() => {
+//     console.log('First or second updated: ', first + second);
+//   }, [first, second]);
+
+//   return (
+//     <>
+//       <button onClick={() => setFirst(first + 1)}>First: {first}</button>
+//       <button onClick={() => setSecond(second + 1)}>Second: {second}</button>
+//     </>
+//   );
+// };

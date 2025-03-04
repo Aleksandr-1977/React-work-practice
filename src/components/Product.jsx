@@ -1,13 +1,25 @@
-export default function Product({
-  name,
-  price,
-  imgUrl = 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640',
-}) {
+const LoginForm = ({ onLogin }) => {
+  const handleSubmit = evt => {
+    evt.preventDefault();
+
+    const form = evt.target;
+    const { login, password } = form.elements;
+
+    // Викликаємо пропс onLogin
+    onLogin({
+      login: login.value,
+      password: password.value,
+    });
+
+    form.reset();
+  };
+
   return (
-    <div>
-      <h2>{name}</h2>
-      <img src={imgUrl} alt={name} width="640" />
-      <p>Price: {price} $</p>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="login" />
+      <input type="password" name="password" />
+      <button type="submit">Login</button>
+    </form>
   );
-}
+};
+export default LoginForm;

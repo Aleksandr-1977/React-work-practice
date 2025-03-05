@@ -18,3 +18,5 @@ Currently, two official plugins are available:
 - npm install react-icons
 - npm install -g react-devtools
 - npm i react-devtools
+- npm install formik
+- npm install yup

@@ -8,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import ArticleList from './ArticleList';
 import RingLoader from 'react-spinners/RingLoader';
+import { fetchArticlesWithTopic } from '../articles-api';
 
 const override = {
   display: 'block',
@@ -15,7 +16,7 @@ const override = {
   borderColor: 'green',
 };
 
-const App = () => {
+export function App() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -23,19 +24,19 @@ const App = () => {
   useEffect(() => {
     async function fetchArticles() {
       try {
-        // 1. Встановлюємо індикатор в true перед запитом
+        setError(false);
         setLoading(true);
-        const response = await axios.get(
-          'https://hn.algolia.com/api/v1/search?query=react'
-        );
-        setArticles(response.data.hits);
+        setArticles([]);
+        // 2. Використовуємо HTTP-функцію
+        const data = await fetchArticlesWithTopic('react');
+        setArticles(data);
       } catch (error) {
         setError(true);
       } finally {
-        // 2. Встановлюємо індикатор в false після запиту
         setLoading(false);
       }
     }
+
     fetchArticles();
   }, []);
 
@@ -45,11 +46,11 @@ const App = () => {
       {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
       {articles.length > 0 && <ArticleList items={articles} />}
       {error && (
-        <p>Whoops, something went wrong! Please try reloading this page!</p>
+        <b>Whoops, something went wrong! Please try reloading this page!</b>
       )}
     </div>
   );
-};
+}
 
 // const FeedbackSchema = Yup.object().shape({
 //   username: Yup.string()

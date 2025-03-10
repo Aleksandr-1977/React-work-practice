@@ -21,3 +21,4 @@ Currently, two official plugins are available:
 - npm install formik
 - npm install yup
 - npm install axios
+- npm install react-spinners

@@ -12,7 +12,7 @@ import RingLoader from 'react-spinners/RingLoader';
 const override = {
   display: 'block',
   margin: '0 auto',
-  borderColor: 'red',
+  borderColor: 'green',
 };
 
 const App = () => {

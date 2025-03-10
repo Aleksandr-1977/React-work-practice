@@ -20,3 +20,4 @@ Currently, two official plugins are available:
 - npm i react-devtools
 - npm install formik
 - npm install yup
+- npm install axios

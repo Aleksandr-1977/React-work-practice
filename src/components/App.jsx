@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { useState, useEffect, CSSProperties } from 'react';
 import './App.css';
-import LoginForm from './Product';
+import LoginForm from './ArticleList';
 import * as Yup from 'yup';
 import { useId } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import ArticleList from './Product';
+import ArticleList from './ArticleList';
 import RingLoader from 'react-spinners/RingLoader';
 
 const override = {
@@ -18,6 +18,7 @@ const override = {
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchArticles() {
@@ -29,7 +30,7 @@ const App = () => {
         );
         setArticles(response.data.hits);
       } catch (error) {
-        // Тут будемо обробляти помилку
+        setError(true);
       } finally {
         // 2. Встановлюємо індикатор в false після запиту
         setLoading(false);
@@ -40,9 +41,12 @@ const App = () => {
 
   return (
     <div>
-      {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
       <h1>Latest articles</h1>
+      {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
       {articles.length > 0 && <ArticleList items={articles} />}
+      {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )}
     </div>
   );
 };

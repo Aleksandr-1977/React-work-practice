@@ -1,83 +1,123 @@
 import clsx from 'clsx';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import './App.css';
 import LoginForm from './Product';
 import * as Yup from 'yup';
-
 import { useId } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
+import ArticleList from './Product';
+import RingLoader from 'react-spinners/RingLoader';
 
-const FeedbackSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string().email('Must be a valid email!').required('Required'),
-  message: Yup.string()
-    .min(3, 'Too short')
-    .max(256, 'Too long')
-    .required('Required'),
-  level: Yup.string().oneOf(['good', 'neutral', 'bad']).required('Required'),
-});
-
-const initialValues = {
-  username: '',
-  email: '',
-  message: '',
-  level: 'good',
+const override = {
+  display: 'block',
+  margin: '0 auto',
+  borderColor: 'red',
 };
 
 const App = () => {
-  const nameFieldId = useId();
-  const emailFieldId = useId();
-  const msgFieldId = useId();
-  const levelFieldId = useId();
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleSubmit = (values, actions) => {
-    console.log(values);
-    actions.resetForm();
-  };
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        // 1. Встановлюємо індикатор в true перед запитом
+        setLoading(true);
+        const response = await axios.get(
+          'https://hn.algolia.com/api/v1/search?query=react'
+        );
+        setArticles(response.data.hits);
+      } catch (error) {
+        // Тут будемо обробляти помилку
+      } finally {
+        // 2. Встановлюємо індикатор в false після запиту
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={FeedbackSchema}
-    >
-      <Form>
-        <div>
-          <label htmlFor={nameFieldId}>Username</label>
-          <Field type="text" name="username" id={nameFieldId} />
-          <ErrorMessage name="username" component="span" />
-        </div>
-
-        <div>
-          <label htmlFor={emailFieldId}>Email</label>
-          <Field type="email" name="email" id={emailFieldId} />
-          <ErrorMessage name="email" component="span" />
-        </div>
-
-        <div>
-          <label htmlFor={msgFieldId}>Message</label>
-          <Field as="textarea" name="message" id={msgFieldId} rows="5" />
-          <ErrorMessage name="message" component="span" />
-        </div>
-
-        <div>
-          <label htmlFor={levelFieldId}>Service satisfaction level</label>
-          <Field as="select" name="level" id={levelFieldId}>
-            <option value="good">Good</option>
-            <option value="neutral">Neutral</option>
-            <option value="bad">Bad</option>
-          </Field>
-          <ErrorMessage name="level" component="span" />
-        </div>
-
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
+    <div>
+      {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
+      <h1>Latest articles</h1>
+      {articles.length > 0 && <ArticleList items={articles} />}
+    </div>
   );
 };
+
+// const FeedbackSchema = Yup.object().shape({
+//   username: Yup.string()
+//     .min(2, 'Too Short!')
+//     .max(50, 'Too Long!')
+//     .required('Required'),
+//   email: Yup.string().email('Must be a valid email!').required('Required'),
+//   message: Yup.string()
+//     .min(3, 'Too short')
+//     .max(256, 'Too long')
+//     .required('Required'),
+//   level: Yup.string().oneOf(['good', 'neutral', 'bad']).required('Required'),
+// });
+
+// const initialValues = {
+//   username: '',
+//   email: '',
+//   message: '',
+//   level: 'good',
+// };
+
+// const App = () => {
+//   const nameFieldId = useId();
+//   const emailFieldId = useId();
+//   const msgFieldId = useId();
+//   const levelFieldId = useId();
+
+//   const handleSubmit = (values, actions) => {
+//     console.log(values);
+//     actions.resetForm();
+//   };
+
+//   return (
+//     <Formik
+//       initialValues={initialValues}
+//       onSubmit={handleSubmit}
+//       validationSchema={FeedbackSchema}
+//     >
+//       <Form>
+//         <div>
+//           <label htmlFor={nameFieldId}>Username</label>
+//           <Field type="text" name="username" id={nameFieldId} />
+//           <ErrorMessage name="username" component="span" />
+//         </div>
+
+//         <div>
+//           <label htmlFor={emailFieldId}>Email</label>
+//           <Field type="email" name="email" id={emailFieldId} />
+//           <ErrorMessage name="email" component="span" />
+//         </div>
+
+//         <div>
+//           <label htmlFor={msgFieldId}>Message</label>
+//           <Field as="textarea" name="message" id={msgFieldId} rows="5" />
+//           <ErrorMessage name="message" component="span" />
+//         </div>
+
+//         <div>
+//           <label htmlFor={levelFieldId}>Service satisfaction level</label>
+//           <Field as="select" name="level" id={levelFieldId}>
+//             <option value="good">Good</option>
+//             <option value="neutral">Neutral</option>
+//             <option value="bad">Bad</option>
+//           </Field>
+//           <ErrorMessage name="level" component="span" />
+//         </div>
+
+//         <button type="submit">Submit</button>
+//       </Form>
+//     </Formik>
+//   );
+// };
 // const App = () => {
 //   // Колбек-функція для обробки сабміту форми
 //   const handleLogin = userData => {
@@ -93,7 +133,7 @@ const App = () => {
 //     </div>
 //   );
 // };
-export default App;
+
 // export default function App() {
 //   return (
 //     <div>
@@ -207,3 +247,4 @@ export default App;
 //     </>
 //   );
 // };
+export default App;

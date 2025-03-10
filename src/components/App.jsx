@@ -9,6 +9,7 @@ import axios from 'axios';
 import ArticleList from './ArticleList';
 import RingLoader from 'react-spinners/RingLoader';
 import { fetchArticlesWithTopic } from '../articles-api';
+import SearchForm from './SearchForm';
 
 const override = {
   display: 'block',
@@ -20,34 +21,31 @@ export function App() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const handleSearch = async topic => {
+    try {
+      setError(false);
+      setLoading(true);
+      setArticles([]);
 
-  useEffect(() => {
-    async function fetchArticles() {
-      try {
-        setError(false);
-        setLoading(true);
-        setArticles([]);
-        // 2. Використовуємо HTTP-функцію
-        const data = await fetchArticlesWithTopic('react');
-        setArticles(data);
-      } catch (error) {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
+      const data = await fetchArticlesWithTopic(topic);
+      setArticles(data);
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
     }
-
-    fetchArticles();
-  }, []);
+  };
 
   return (
     <div>
+      <SearchForm onSearch={handleSearch} />
       <h1>Latest articles</h1>
       {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
-      {articles.length > 0 && <ArticleList items={articles} />}
+
       {error && (
         <b>Whoops, something went wrong! Please try reloading this page!</b>
       )}
+      {articles.length > 0 && <ArticleList items={articles} />}
     </div>
   );
 }

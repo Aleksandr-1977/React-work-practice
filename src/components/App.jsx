@@ -10,45 +10,69 @@ import ArticleList from './ArticleList';
 import RingLoader from 'react-spinners/RingLoader';
 import { fetchArticlesWithTopic } from '../articles-api';
 import SearchForm from './SearchForm';
+import { useRef } from 'react';
 
-const override = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: 'green',
-};
+const Player = ({ source }) => {
+  const playerRef = useRef();
 
-export function App() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const handleSearch = async topic => {
-    try {
-      setError(false);
-      setLoading(true);
-      setArticles([]);
+  const play = () => playerRef.current.play();
 
-      const data = await fetchArticlesWithTopic(topic);
-      setArticles(data);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const pause = () => playerRef.current.pause();
 
   return (
     <div>
-      <SearchForm onSearch={handleSearch} />
-      <h1>Latest articles</h1>
-      {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
-
-      {error && (
-        <b>Whoops, something went wrong! Please try reloading this page!</b>
-      )}
-      {articles.length > 0 && <ArticleList items={articles} />}
+      <video ref={playerRef} src={source}>
+        Sorry, your browser does not support embedded videos.
+      </video>
+      <div>
+        <button onClick={play}>Play</button>
+        <button onClick={pause}>Pause</button>
+      </div>
     </div>
   );
-}
+};
+
+const App = () => {
+  return <Player source="http://media.w3.org/2010/05/sintel/trailer.mp4" />;
+};
+// const override = {
+//   display: 'block',
+//   margin: '0 auto',
+//   borderColor: 'green',
+// };
+
+// export function App() {
+//   const [articles, setArticles] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(false);
+//   const handleSearch = async topic => {
+//     try {
+//       setError(false);
+//       setLoading(true);
+//       setArticles([]);
+
+//       const data = await fetchArticlesWithTopic(topic);
+//       setArticles(data);
+//     } catch (error) {
+//       setError(true);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <SearchForm onSearch={handleSearch} />
+//       <h1>Latest articles</h1>
+//       {loading && <RingLoader color="#6dc55f" cssOverride={override} />}
+
+//       {error && (
+//         <b>Whoops, something went wrong! Please try reloading this page!</b>
+//       )}
+//       {articles.length > 0 && <ArticleList items={articles} />}
+//     </div>
+//   );
+// }
 
 // const FeedbackSchema = Yup.object().shape({
 //   username: Yup.string()

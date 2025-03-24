@@ -15,3 +15,6 @@
 - npm install react-spinners
 - npm install @reduxjs/toolkit
 - npm install react-redux
+- npm install react-modal
+- npm install react-hot-toast
+- npm i react-router-dom

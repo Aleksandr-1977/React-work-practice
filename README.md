@@ -13,3 +13,5 @@
 - npm install yup
 - npm install axios
 - npm install react-spinners
+- npm install @reduxjs/toolkit
+- npm install react-redux

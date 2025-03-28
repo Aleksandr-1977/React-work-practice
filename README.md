@@ -2,8 +2,8 @@
 
 Установленные библиотеки:
 
-- npm i
 - npm create vite@latest
+- npm i
 - npm install clsx
 - npm install modern-normalize
 - npm install react-icons
@@ -13,8 +13,8 @@
 - npm install yup
 - npm install axios
 - npm install react-spinners
-- npm install @reduxjs/toolkit
-- npm install react-redux
 - npm install react-modal
 - npm install react-hot-toast
 - npm i react-router-dom
+- npm install @reduxjs/toolkit
+- npm install react-redux

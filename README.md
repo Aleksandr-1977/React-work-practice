@@ -10,6 +10,7 @@
 - npm install -g react-devtools
 - npm i react-devtools
 - npm install formik
+- npm i nanoid
 - npm install yup
 - npm install axios
 - npm install react-spinners

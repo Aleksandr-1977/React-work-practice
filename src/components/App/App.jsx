@@ -1,15 +1,15 @@
 import clsx from 'clsx';
 import { useState, useEffect, CSSProperties } from 'react';
 import './App.css';
-import LoginForm from './ArticleList';
+import LoginForm from '../Task/Task';
 import * as Yup from 'yup';
 import { useId } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import ArticleList from './ArticleList';
+import ArticleList from '../Task/Task';
 import RingLoader from 'react-spinners/RingLoader';
-import { fetchArticlesWithTopic } from '../articles-api';
-import SearchForm from './SearchForm';
+import { fetchArticlesWithTopic } from '../../articles-api';
+import SearchForm from '../TaskList/TaskList';
 import { useRef } from 'react';
 
 const Player = ({ source }) => {

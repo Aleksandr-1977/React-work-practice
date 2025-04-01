@@ -1,5 +1,8 @@
 # React + Vite
 
+Планировщик задач:
+https://stackblitz.com/edit/vitejs-vite-szmsmsf9?file=src%2Fmain.jsx
+
 Установленные библиотеки:
 
 - npm create vite@latest

@@ -1,6 +1,22 @@
+import { useState } from 'react';
+import StatusFilter from '../StatusFilter/StatusFilter';
+import TaskCounter from '../TaskCounter/TaskCounter';
 import css from './AppBar.module.css';
 
 const AppBar = () => {
-  return <p>Hello</p>;
+  const [click, setClick] = useState(0);
+  const [completed, setCompleted] = useState(0);
+  return (
+    <div className={css.wrapper}>
+      <section className={css.section}>
+        <h2 className={css.title}>Task</h2>
+        <TaskCounter click={click} completed={completed} />
+      </section>
+      <section className={css.section}>
+        <h2 className={css.title}>Filter by status</h2>
+        <StatusFilter setClick={setClick} setCompleted={setCompleted} />
+      </section>
+    </div>
+  );
 };
 export default AppBar;

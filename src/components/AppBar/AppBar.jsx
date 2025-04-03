@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StatusFilter from '../StatusFilter/StatusFilter';
 import TaskCounter from '../TaskCounter/TaskCounter';
 import css from './AppBar.module.css';
@@ -6,6 +6,12 @@ import css from './AppBar.module.css';
 const AppBar = () => {
   const [click, setClick] = useState(0);
   const [completed, setCompleted] = useState(0);
+  useEffect(() => {
+    window.localStorage.setItem('save clicks', click);
+  }, [click]);
+  useEffect(() => {
+    window.localStorage.setItem('save completed', completed);
+  }, [completed]);
   return (
     <div className={css.wrapper}>
       <section className={css.section}>

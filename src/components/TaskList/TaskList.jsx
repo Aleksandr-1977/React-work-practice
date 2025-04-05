@@ -1,22 +1,54 @@
+import { useEffect, useState } from 'react';
 import Task from '../Task/Task';
 import css from './TaskList.module.css';
+import { getApi, postApi } from '../../APIservice/getApi';
+import Loader from '../Loader/Loader';
+import Error from '../../Error/Error';
+import TaskForm from '../TaskForm/TaskForm';
 
 const TaskList = () => {
-  const task = [
-    { id: 0, text: 'Learn HTML and CSS', completed: true },
-    { id: 1, text: 'Get good at JavaScript', completed: true },
-    { id: 2, text: 'Master React', completed: false },
-    { id: 3, text: 'Discover Redux', completed: false },
-    { id: 4, text: 'Build amazing apps', completed: false },
-  ];
+  const [tasks, setTask] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const data = await getApi('task');
+        setTask(data);
+      } catch {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleAddTask = async newTask => {
+    try {
+      setLoading(true);
+      const addedTask = await postApi(newTask);
+      setTask(prevTask => [...prevTask, addedTask]);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <ul className={css.list}>
-      {task.map(task => (
-        <li className={css.listItem} key={task.id}>
-          <Task task={task} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <TaskForm onAddTask={handleAddTask} />
+      <ul className={css.list}>
+        {loading && <Loader />}
+        {error && <Error />}
+        {tasks.map(task => (
+          <li className={css.listItem} key={task.id}>
+            <Task task={task} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 export default TaskList;

@@ -8,6 +8,7 @@ const StatusFilter = ({ setClick, setCompleted }) => {
   const handleCompleted = () => {
     setCompleted(prev => prev + 1);
   };
+
   return (
     <div className={css.wrapper}>
       <button onClick={() => alert('Hello')}>All</button>

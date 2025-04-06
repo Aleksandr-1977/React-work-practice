@@ -12,3 +12,7 @@ export const postApi = async taskData => {
   const response = await axios.post(`/task`, taskData);
   return response.data;
 };
+export const deleteApi = async id => {
+  const response = await axios.delete(`/task/${id}`);
+  return response.data;
+}

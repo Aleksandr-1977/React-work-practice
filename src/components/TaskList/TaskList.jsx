@@ -3,7 +3,7 @@ import Task from '../Task/Task';
 import css from './TaskList.module.css';
 import { getApi, postApi, deleteApi } from '../../APIservice/getApi';
 import Loader from '../Loader/Loader';
-import Error from '../../Error/Error';
+import Error from '../Error/Error';
 import TaskForm from '../TaskForm/TaskForm';
 
 const TaskList = () => {

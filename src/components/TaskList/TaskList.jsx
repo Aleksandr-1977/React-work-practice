@@ -5,6 +5,7 @@ import { getApi, postApi, deleteApi } from '../../APIservice/getApi';
 import Loader from '../Loader/Loader';
 import Error from '../Error/Error';
 import TaskForm from '../TaskForm/TaskForm';
+import AppBar from '../AppBar/AppBar';
 
 const TaskList = () => {
   const [tasks, setTask] = useState([]);
@@ -50,6 +51,7 @@ const TaskList = () => {
   };
   return (
     <>
+      <AppBar />
       <TaskForm onAddTask={handleAddTask} />
       <ul className={css.list}>
         {loading && <Loader />}

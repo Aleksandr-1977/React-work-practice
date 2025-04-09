@@ -1,31 +1,31 @@
 import { lazy, Suspense } from 'react';
-import AppBar from '../AppBar/AppBar';
-import TaskList from '../TaskList/TaskList';
+
 import css from './App.module.css';
 import { Route, Routes } from 'react-router-dom';
-import Layout from '../Layout/Layout';
+
+import Header from '../Header/Header';
+import Loader from '../Loader/Loader';
 
 const HomePage = lazy(() => import('../../Pages/HomePage/HomePage'));
 const LoginPage = lazy(() => import('../../Pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() =>
   import('../../Pages/RegisterPage/RegisterPage')
 );
+const TaskPage = lazy(() => import('../../Pages/TaskPage/TaskPage'));
 
 const App = () => {
   return (
     <div className={css.container}>
-      <Layout>
-        <Suspense fallback={null}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<b>Not Found</b>} />
-          </Routes>
-        </Suspense>
-      </Layout>
-      <AppBar />
-      <TaskList />
+      <Header />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/task" element={<TaskPage />} />
+          <Route path="*" element={<b>Not Found</b>} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

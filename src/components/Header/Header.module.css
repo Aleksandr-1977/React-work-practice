@@ -1,7 +1,24 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+  justify-content: flex-start;
+  max-width: 960px;
   align-items: center;
   margin-bottom: 16px;
   border-bottom: 1px solid #2a363b;
+  padding: 0 10px;
+  background-color: rgb(226, 201, 164);
+  border-radius: 10px;
+}
+.link {
+  margin-right: 10px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 700;
+  color: #2a363b;
+}
+
+.link.active {
+  color: #e84a5f;
 }

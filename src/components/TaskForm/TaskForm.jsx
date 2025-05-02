@@ -1,29 +1,26 @@
 import { useId, useState } from 'react';
 import css from './TaskForm.module.css';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../redux/actions';
 
-const TaskForm = ({ onAddTask }) => {
+const TaskForm = () => {
+  const dispatch = useDispatch();
   const [inputTask, setInputTask] = useState('');
-  const id = useId();
+  // const id = useId();
   const handleChange = evt => {
     setInputTask(evt.target.value);
   };
-  const handleSubmit = async evt => {
-    evt.preventDefault();
-    if (inputTask.trim() === '') {
-      alert('Please enter task text');
-      return;
-    }
-    const newTask = {
-      id: { id },
-      text: inputTask,
-      completed: false,
-    };
-    try {
-      await onAddTask(newTask);
-      setInputTask('');
-    } catch (error) {
-      console.error('Error adding task:', error);
-    }
+  const handleSubmit = event => {
+    event.preventDefault();
+    const form = event.target;
+    dispatch(
+      addTask({
+        id: crypto.randomUUID(),
+        completed: false,
+        text: form.elements.text.value,
+      })
+    );
+    form.reset();
   };
   return (
     <form onSubmit={handleSubmit} className={css.form}>

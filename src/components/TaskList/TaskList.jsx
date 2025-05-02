@@ -6,26 +6,40 @@ import Loader from '../Loader/Loader';
 import Error from '../Error/Error';
 import TaskForm from '../TaskForm/TaskForm';
 import AppBar from '../AppBar/AppBar';
+import { useSelector } from 'react-redux';
 
+const getVisibleTasks = (tasks, statusFilter) => {
+  switch (statusFilter) {
+    case 'active':
+      return tasks.filter(task => !task.completed);
+    case 'completed':
+      return tasks.filter(task => task.completed);
+    default:
+      return tasks;
+  }
+};
 const TaskList = () => {
   const [tasks, setTask] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const task = useSelector(state => state.task.items);
+  const statusFilter = useSelector(state => state.filters.status);
+  const visibleTasks = getVisibleTasks(task, statusFilter);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const data = await getApi('task');
-        setTask(data);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       setLoading(true);
+  //       const data = await getApi('task');
+  //       setTask(data);
+  //     } catch {
+  //       setError(true);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   const handleAddTask = async newTask => {
     try {
@@ -56,7 +70,7 @@ const TaskList = () => {
       <ul className={css.list}>
         {loading && <Loader />}
         {error && <Error />}
-        {tasks.map(task => (
+        {visibleTasks.map(task => (
           <li className={css.listItem} key={task.id}>
             <Task task={task} deleteTask={handleDelete} />
           </li>
